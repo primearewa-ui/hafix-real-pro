@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#087443">
+  <meta name="description" content="HAFIZ DATA & BILLS — data, airtime and bill payments in one place.">
+  <title>HAFIZ DATA & BILLS</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/config.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Hafiz home">
+        <span class="brand-mark">H</span><span><b>HAFIZ</b><small>DATA & BILLS</small></span>
+      </a>
+      <div class="side-label">MENU</div>
+      <button class="nav-item active" data-view="home">⌂ <span>Overview</span></button>
+      <button class="nav-item" data-view="data">▤ <span>Buy Data</span></button>
+      <button class="nav-item" data-view="airtime">◉ <span>Airtime</span></button>
+      <button class="nav-item" data-view="bills">ϟ <span>Bills & TV</span></button>
+      <button class="nav-item" data-view="education">▣ <span>Exam Pins</span></button>
+      <button class="nav-item" data-view="transactions">↻ <span>Transactions</span></button>
+      <button class="nav-item" data-view="wallet">▱ <span>Wallet</span></button>
+      <div class="sidebar-bottom"><span class="avatar">H</span><span><b>Welcome</b><small>Customer account</small></span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuToggle" class="icon-button mobile-only" aria-label="Open menu">☰</button>
+        <div><span class="eyebrow">YOUR DIGITAL SERVICES HUB</span><h1 id="pageTitle">Good day 👋</h1></div>
+        <div class="top-actions"><a class="account-link" href="/login.html">Login / Sign up</a><button id="themeToggle" class="install-button" type="button">☼ Theme</button><button id="installBtn" class="install-button" hidden>＋ Install app</button><span class="avatar">H</span></div>
+      </header>
+
+      <section id="view-home" class="view">
+        <div class="hero">
+          <div><span class="hero-kicker">YOUR WALLET</span><p class="balance-label">Available balance</p><div class="balance-row"><strong id="balance">₦0.00</strong><button id="toggleBalance" class="eye" aria-label="Hide balance">◉</button></div><button class="light-button" data-go="wallet">＋ Fund wallet</button></div>
+          <div class="hero-art" aria-hidden="true"><div class="orb">₦</div><span>FAST · SECURE · RELIABLE</span></div>
+        </div>
+
+        <div class="section-head"><div><h2>What would you like to do?</h2><p>Choose a service to get started.</p></div></div>
+        <div class="service-grid">
+          <button class="service-card" data-go="airtime"><span class="service-icon yellow">◉</span><b>Airtime</b><small>Recharge any network</small></button>
+          <button class="service-card" data-go="data"><span class="service-icon green">▤</span><b>Data bundles</b><small>Stay connected</small></button>
+          <button class="service-card" data-go="bills"><span class="service-icon blue">ϟ</span><b>Electricity</b><small>Pay supported bills</small></button>
+          <button class="service-card" data-go="bills"><span class="service-icon purple">▣</span><b>TV subscription</b><small>Renew your package</small></button>
+          <button class="service-card" data-go="education"><span class="service-icon mint">✎</span><b>Exam pins</b><small>WAEC, NECO, JAMB*</small></button>
+          <button class="service-card" data-go="bills"><span class="service-icon aqua">⋯</span><b>More services</b><small>Explore available bills</small></button>
+        </div>
+        <div class="section-head"><div><h2>Recent transactions</h2><p>Your latest activity will appear here.</p></div><button class="text-button" data-go="transactions">View all →</button></div>
+        <div id="recentList" class="panel empty-state"><span class="empty-symbol">↻</span><b>No transactions yet</b><p>When you make a purchase, its status will appear here.</p></div>
+        <p class="footnote">*Services and providers become available after the relevant supplier integration is configured.</p>
+      </section>
+
+      <section id="view-data" class="view" hidden>
+        <div class="section-head"><div><h2>Buy data</h2><p>Choose a network and available data plan.</p></div></div>
+        <div class="panel form-panel">
+          <label for="dataNetwork">Network</label><div class="network-grid"><button class="network selected" data-network="MTN">🟡 MTN</button><button class="network" data-network="Airtel">🔴 Airtel</button><button class="network" data-network="Glo">🟢 Glo</button><button class="network" data-network="9mobile">🟩 9mobile</button></div>
+          <label for="dataPhone">Phone number</label><input id="dataPhone" inputmode="numeric" maxlength="11" placeholder="e.g. 08012345678">
+          <label for="dataPlan">Data plan</label><select id="dataPlan"><option value="">Choose a plan</option><option value="500MB|500">500 MB — ₦500 (sample)</option><option value="1GB|900">1 GB — ₦900 (sample)</option><option value="2GB|1800">2 GB — ₦1,800 (sample)</option><option value="5GB|3500">5 GB — ₦3,500 (sample)</option></select>
+          <div class="notice">Sample prices only. Live plans and prices must come from your selected VTU provider.</div>
+          <button class="primary-button" data-purchase="data">Continue</button>
+        </div>
+      </section>
+
+      <section id="view-airtime" class="view" hidden>
+        <div class="section-head"><div><h2>Airtime recharge</h2><p>Top up a mobile number.</p></div></div>
+        <div class="panel form-panel">
+          <label for="airNetwork">Network</label><select id="airNetwork"><option>MTN</option><option>Airtel</option><option>Glo</option><option>9mobile</option></select>
+          <label for="airPhone">Phone number</label><input id="airPhone" inputmode="numeric" maxlength="11" placeholder="e.g. 08012345678">
+          <label for="airAmount">Amount (₦)</label><input id="airAmount" type="number" min="50" placeholder="Enter amount">
+          <button class="primary-button" data-purchase="airtime">Continue</button>
+        </div>
+      </section>
+
+      <section id="view-bills" class="view" hidden>
+        <div class="section-head"><div><h2>Bills & subscriptions</h2><p>Select the service you want to pay for.</p></div></div>
+        <div class="service-grid compact">
+          <button class="service-card" data-bill="Electricity"><span class="service-icon blue">ϟ</span><b>Electricity</b><small>Meter and token payments</small></button>
+          <button class="service-card" data-bill="Water bill"><span class="service-icon aqua">≈</span><b>Water bill</b><small>Where supported</small></button>
+          <button class="service-card" data-bill="DStv / GOtv"><span class="service-icon purple">▣</span><b>TV subscription</b><small>DStv, GOtv and more</small></button>
+        </div>
+        <div class="panel form-panel" id="billForm">
+          <h3 id="billTitle">Electricity</h3><label for="billProvider">Provider / service</label><select id="billProvider"><option>IKEDC</option><option>EKEDC</option><option>IBEDC</option><option>DStv</option><option>GOtv</option><option>Water utility (if supported)</option></select>
+          <label for="billAccount">Meter number / smartcard / account number</label><input id="billAccount" placeholder="Enter account number">
+          <label for="billAmount">Amount (₦), if required</label><input id="billAmount" type="number" min="1" placeholder="Enter amount">
+          <div class="notice">Account validation and actual bill payment require a supported provider API.</div>
+          <button class="primary-button" data-purchase="bill">Continue</button>
+        </div>
+      </section>
+
+      <section id="view-education" class="view" hidden>
+        <div class="section-head"><div><h2>Education pins</h2><p>Purchase exam pins from an authorized supplier.</p></div></div>
+        <div class="panel form-panel">
+          <label for="examType">Exam type</label><select id="examType"><option>WAEC</option><option>NECO</option><option>JAMB</option></select>
+          <label for="pinQuantity">Quantity</label><input id="pinQuantity" type="number" min="1" max="20" value="1">
+          <div class="notice">The pin price and availability will be confirmed by your supplier integration.</div>
+          <button class="primary-button" data-purchase="exam">Continue</button>
+        </div>
+      </section>
+
+      <section id="view-wallet" class="view" hidden>
+        <div class="section-head"><div><h2>Wallet</h2><p>Manage your account balance.</p></div></div>
+        <div class="panel form-panel"><div class="notice warning">Wallet funding is not connected yet. Do not send money to this demo website.</div><label for="fundAmount">Amount to fund (₦)</label><input id="fundAmount" type="number" min="100" placeholder="Minimum ₦100"><button class="primary-button" id="fundBtn">Continue to payment setup</button></div>
+        <p class="footnote">A real wallet must verify payment notifications server-side before crediting a customer's balance.</p>
+      </section>
+
+      <section id="view-transactions" class="view" hidden>
+        <div class="section-head"><div><h2>Transactions</h2><p>View the activity recorded in this browser.</p></div></div>
+        <div id="allTransactions" class="panel empty-state"><span class="empty-symbol">↻</span><b>No transactions yet</b><p>Completed transactions will be listed here after backend integration.</p></div>
+      </section>
+      <footer>© <span id="year"></span> HAFIZ DATA & BILLS <span>· Secure services, made simple.</span></footer>
+    </main>
+  </div>
+  <nav class="mobile-nav"><button data-go="home">⌂<small>Home</small></button><button data-go="data">▤<small>Data</small></button><button data-go="wallet">▱<small>Wallet</small></button><button data-go="transactions">↻<small>History</small></button></nav>
+  <a class="whatsapp-float" href="https://wa.me/2349120241895?text=Hello%20HAFIZ%20DATA%20%26%20BILLS%2C%20I%20need%20support." target="_blank" rel="noopener noreferrer" aria-label="Chat with us on WhatsApp">WhatsApp support</a>
+  <button id="chatOpen" class="chat-float" type="button">💬 Live chat</button>
+  <section id="chatPanel" class="chat-panel" hidden aria-label="Website live chat"><header><b>HAFIZ Support</b><button id="chatClose" type="button" aria-label="Close chat">×</button></header><div id="chatLog" class="chat-log"><p class="chat-note">Sign in to contact support. Your messages will be saved when the backend is configured.</p><div class="chat-bubble agent-bubble">Hello! How can we help you today?</div></div><form id="chatForm"><input id="chatMessage" placeholder="Type your message…" maxlength="1000" required><button type="submit">Send</button></form><a href="https://wa.me/2349120241895" target="_blank" rel="noopener noreferrer">Prefer WhatsApp? Message us</a></section>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
