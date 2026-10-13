@@ -1,3 +1,6 @@
-
 window.HAFIZ_CONFIG = {
-  
+  SUPABASE_URL: "https://zvwtmzxbibqvcejzrhdd.supabase.co",
+  SUPABASE_ANON_KEY: "YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY",
+  WHATSAPP_NUMBER: "2349120241895",
+  CURRENCY: "NGN"
+};
